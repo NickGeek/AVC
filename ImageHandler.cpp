@@ -2,13 +2,13 @@
 #include <time.h>
 #include "E101.h"
 
-main(){
-  init();
-  take_picture();
-  /** since this is only three pixels from the same line, maybe adding a vertical pixel might be good. */  
-  left_pixel = get_pixel(80, 120, 3);
-  mid_pixel = get_pixel(160, 120, 3);
-  right_pixel = get_pixel(240, 120, 3); 
+int main() {
+	init();
+	take_picture();
+	/** since this is only three pixels from the same line, maybe adding a vertical pixel might be good. */  
+	left_pixel = get_pixel(80, 120, 3);
+	mid_pixel = get_pixel(160, 120, 3);
+	right_pixel = get_pixel(240, 120, 3); 
 }
 
 /** From the lecture, we should stick with using an array to make the robots navigation better.*/
