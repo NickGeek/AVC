@@ -4,7 +4,7 @@
 
 main(){
   init();
-  take_picture()
+  take_picture();
   /** since this is only three pixels from the same line, maybe adding a vertical pixel might be good. */  
   left_pixel = get_pixel(80, 120, 3);
   mid_pixel = get_pixel(160, 120, 3);
