@@ -6,6 +6,11 @@
 
 using namespace std;
 
+struct Movement {
+	int motorLeft;
+	int motorRight;
+};
+
 class Camera: public Sensor {
 	double getErrorValue() {
 		double error = 0;
@@ -22,8 +27,11 @@ class Camera: public Sensor {
 	}
 
 	public:
-		int[] getNextDirection() {
+		Movement getNextDirection() {
 			//TODO: Get the next direction using data from the Camera
-			return "";
+			Movement movement;
+			movement.motorLeft = 0;
+			movement.motorRight = 0;
+			return movement;
 		}
 };
