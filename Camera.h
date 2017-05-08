@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 // #include <string>
-#include "E101.h"
+#include "libE101.so"
 #include "Sensor.h"
 
 using namespace std;
