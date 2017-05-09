@@ -5,7 +5,7 @@
 int main() {
 	init();
 
-	int[3] pixels;
+	int pixels[3] = {};
 	take_picture();
 	/** since this is only three pixels from the same line, maybe adding a vertical pixel might be good. */  
 	pixels[0] = get_pixel(80, 120, 3);
