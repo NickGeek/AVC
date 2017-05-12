@@ -7,6 +7,10 @@ int main() {
 	take_picture();
 	display_picture(1,500000);
 	int sum = 0;
+	int error;
+	int nowp = 0;
+	int proportional_signal = 0;
+	float kp = 0.5;
 	/** Location controls the col, pixelH is the variable for the horizontal pixels*/
 	int location, int pixelH, int checkRed, int s;
 	while(true){
@@ -23,24 +27,21 @@ int main() {
 			else{
 				s = 0;
 			}
+			error = error + (location - 160) * s;
 			sum = sum + (location - 160) * s;
+			proportional_signal = error * kp;
 			while(true){
-				if(sum < 0){
-					turn_right();
-					println("Turning right"); /** The prints for each if statement is only for testing */
+				if (number_of_white_pixels > 0){
+				v_left = 70 + proportional_signal;
+				v_right = 70 - proportional_signal;
+				set_motor(1, v_left);
+				set_motor(2, v_right);} /** The prints for each if statement is only for testing */
 				}
-				if(sum > 0){
-					turn_left();
-					println("Turning left");
-				}
-				if(sum = 0){
-					drive_forward();
-					println("Moving forward");
-				}
-				if(sum = -1){
-					/** add code to switch to IR and turn off this camera */
-					println("Red detected, switching to IR sensor");
-					return false;
+				else{
+					v_left = 70 - proportional_signal;
+					v_right = 70 + proportional_signal;
+					set_motor(1, v_left);
+					set_motor(2, v_right);
 				}
 			}
 		}
