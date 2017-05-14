@@ -5,15 +5,13 @@
 int main() {
 	init();
 
-	int pixels[3] = {};
-	take_picture();
-	/** since this is only three pixels from the same line, maybe adding a vertical pixel might be good. */  
-	pixels[0] = get_pixel(80, 120, 3);
-	pixels[1] = get_pixel(160, 120, 3);
-	pixels[3] = get_pixel(240, 120, 3);
-
-	for (int i = 0; i < 3; ++i) {
-		printf("%d\n", pixels[i]);
+	Camera camera;
+	while (true) {
+		Movement m = getNextDirection();
+		set_motor(1, m.motorLeft);
+		set_motor(2, m.motorRight);
+		sleep1(0, 500)
 	}
+
 	return 0;
 }

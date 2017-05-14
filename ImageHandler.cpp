@@ -35,7 +35,7 @@ int main() {
 				v_left = 70 + proportional_signal;
 				v_right = 70 - proportional_signal;
 				set_motor(1, v_left);
-				set_motor(2, v_right);} /** The prints for each if statement is only for testing */
+				set_motor(2, v_right); /** The prints for each if statement is only for testing */
 				}
 				else{
 					v_left = 70 - proportional_signal;

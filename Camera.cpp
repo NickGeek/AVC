@@ -12,35 +12,41 @@ struct Movement {
 };
 
 class Camera: public Sensor {
-	int[] getImageData() {
-		int[3] pixels;
+	int whiteThreshold = 127;
+	int whitePixels = 0;
+	float kp = 0.5;
+
+	int getPropSignal() {
+		int sum = 0;
+		int error = 0;
+		int proportionalSignal = 0;
+		whitePixels = 0;
+
 		take_picture();
-		/** since this is only three pixels from the same line, maybe adding a vertical pixel might be good. */  
-		pixels[0] = get_pixel(80, 120, 3);
-		pixels[1] = get_pixel(160, 120, 3);
-		pixels[3] = get_pixel(240, 120, 3); 
-	}
-
-	double getErrorValue() {
-		double error = 0;
-		int numWhite = 0;
-
-		//TODO: Calculate error
-
-		if (numWhite > 0) {
-			return error/numWhite;
+		for (int location = 0; location < 320; location++) {
+			int pixelH = get_pixel(location, 120, 3);
+			if(pixelH > whiteThreshold) {
+				whitePixels++;
+				sum = 1;
+			}
+			else {
+				sum = 0;
+			}
+			error = error + (location - 160) * sum;
+			sum = sum + (location - 160) * sum;
+			proportional_signal = error * kp;
 		}
-		else {
-			return 0;
-		}
+		return proportionalSignal;
 	}
 
 	public:
 		Movement getNextDirection() {
-			//TODO: Get the next direction using data from the Camera
-			Movement movement;
-			movement.motorLeft = 0;
-			movement.motorRight = 0;
+			Movement movement = {-1, -1};
+			if (whitePixels > 0) {
+				int propSignal = getPropSignal();
+				movement = {70 + propSignal, 70 - propSignal}
+			}
+
 			return movement;
 		}
 };

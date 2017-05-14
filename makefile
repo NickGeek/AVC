@@ -6,4 +6,4 @@
 # 	g++ -shared -o libe101.so start.o camera.o cameracontrol.o $(LIB) $(LIBSO)
 # 
 output:main.cpp
-	g++ -Wall -o output "main.cpp" -leE101
+	g++ -Wall -o output "main.cpp" -le101
