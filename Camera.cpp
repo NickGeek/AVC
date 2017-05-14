@@ -2,7 +2,7 @@
 #include <time.h>
 // #include <string>
 #include "libE101.so"
-#include "Sensor.h"
+#include "Sensor.cpp"
 
 using namespace std;
 
