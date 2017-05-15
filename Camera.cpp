@@ -11,16 +11,37 @@ struct Movement {
 	int motorRight;
 };
 
-class Camera: public Sensor {
-	int whiteThreshold = 127;
-	int whitePixels = 0;
-	float kp = 0.5;
+struct ErrorSignal {
+	int p;
+	int i;
+	int d;
+}
 
-	int getPropSignal() {
+class Camera: public Sensor {
+	int whiteThreshold = getWhiteThreshold();
+	int whitePixels = 0;
+
+	/** Take every pixel visible and get the median to establish a threshold for white pixels */
+	int getWhiteThreshold() {
+		take_picture();
+
+		int sum = 0;
+		for (int pixelH = 0; pixelH < 320; pixelH++) {
+			for (int pixelV = 0; pixelV < 240; pixelV++) {
+				sum += get_pixel(pixelH, pixelV, 3);
+			}
+		}
+
+		return sum/76800;
+	}
+
+	ErrorSignal getErrorSignal() {
 		int sum = 0;
 		int error = 0;
-		int proportionalSignal = 0;
+		float kp = 0.5;
+		float ki = 0.5;
 		whitePixels = 0;
+		ErrorSignal errorSignal = {0, 0 ,0};
 
 		take_picture();
 		for (int location = 0; location < 320; location++) {
@@ -34,7 +55,7 @@ class Camera: public Sensor {
 			}
 			error = error + (location - 160) * sum;
 			sum = sum + (location - 160) * sum;
-			proportional_signal = error * kp;
+			errorSignal.p = error * kp;
 		}
 		return proportionalSignal;
 	}
@@ -42,9 +63,9 @@ class Camera: public Sensor {
 	public:
 		Movement getNextDirection() {
 			Movement movement = {-1, -1};
+			ErrorSignal errorSignal = getErrorSignal();
 			if (whitePixels > 0) {
-				int propSignal = getPropSignal();
-				movement = {70 + propSignal, 70 - propSignal}
+				movement = {70 + errorSignal.p, 70 - errorSignal.p}
 			}
 
 			return movement;
