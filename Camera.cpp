@@ -18,7 +18,7 @@ struct ErrorSignal {
 }
 
 class Camera: public Sensor {
-	int whiteThreshold = getWhiteThreshold();
+	int whiteThreshold = 127;
 	int whitePixels = 0;
 
 	/** Take every pixel visible and get the median to establish a threshold for white pixels */
@@ -61,6 +61,10 @@ class Camera: public Sensor {
 	}
 
 	public:
+		Camera() {
+			whiteThreshold = getWhiteThreshold();
+		}
+
 		Movement getNextDirection() {
 			Movement movement = {-1, -1};
 			ErrorSignal errorSignal = getErrorSignal();
