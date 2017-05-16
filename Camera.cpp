@@ -24,7 +24,7 @@ class Camera: public Sensor {
 		int sum = 0;
 		for (int pixelH = 0; pixelH < 320; pixelH++) {
 			for (int pixelV = 0; pixelV < 240; pixelV++) {
-				sum += get_pixel(pixelH, pixelV, 3);
+				sum += get_pixel(pixelV, pixelH, 3);
 			}
 		}
 
@@ -45,7 +45,7 @@ class Camera: public Sensor {
 
 		take_picture();
 		for (int location = 0; location < 320; location++) {
-			int pixelH = get_pixel(location, 120, 3);
+			int pixelH = get_pixel(120, location, 3);
 			if(pixelH > whiteThreshold) {
 				whitePixels++;
 				sum = 1;
