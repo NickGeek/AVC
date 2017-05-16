@@ -21,9 +21,6 @@ int main() {
 			if(pixelH > 127){
 				s = 1;
 			}
-			if(checkRed ){ /** finish if statement to make it work*/
-				s = -1;
-			}
 			else{
 				s = 0;
 			}
