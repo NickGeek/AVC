@@ -1,15 +1,10 @@
 #include <stdio.h>
 #include <time.h>
-// #include <string>
-#include "libE101.so"
+#include "E101.h"
 #include "Sensor.cpp"
+#include "Movement.cpp"
 
 using namespace std;
-
-struct Movement {
-	int motorLeft;
-	int motorRight;
-};
 
 struct ErrorSignal {
 	int p;
@@ -20,6 +15,7 @@ struct ErrorSignal {
 class Camera: public Sensor {
 	int whiteThreshold = 127;
 	int whitePixels = 0;
+	int totalError = 0;
 
 	/** Take every pixel visible and get the median to establish a threshold for white pixels */
 	int getWhiteThreshold() {
@@ -35,13 +31,17 @@ class Camera: public Sensor {
 		return sum/76800;
 	}
 
+	/** Get current PID values */
 	ErrorSignal getErrorSignal() {
 		int sum = 0;
 		int error = 0;
+		this->whitePixels = 0;
+		ErrorSignal errorSignal = {0, 0 ,0};
+
+		/** PID Constants */
 		float kp = 0.5;
 		float ki = 0.5;
-		whitePixels = 0;
-		ErrorSignal errorSignal = {0, 0 ,0};
+		float kd = 0.5;
 
 		take_picture();
 		for (int location = 0; location < 320; location++) {
@@ -54,24 +54,29 @@ class Camera: public Sensor {
 				sum = 0;
 			}
 			error = error + (location - 160) * sum;
-			sum = sum + (location - 160) * sum;
 			errorSignal.p = error * kp;
 		}
-		return proportionalSignal;
+		this->totalError += error;
+		errorSignal.i = totalError*ki;
+
+		return errorSignal;
 	}
 
-	public:
-		Camera() {
-			whiteThreshold = getWhiteThreshold();
+public:
+	Camera() {
+		this->whiteThreshold = getWhiteThreshold();
+	}
+
+	Movement getNextDirection() {
+		ErrorSignal errorSignal = getErrorSignal();
+		Movement movement();
+		if (whitePixels > 0) {
+			movement = {70 + (errorSignal.p + errorSignal.i + errorSignal.d), 70 - (errorSignal.p + errorSignal.i + errorSignal.d)}
+		}
+		else {
+			//TODO: Reverse at different angle
 		}
 
-		Movement getNextDirection() {
-			Movement movement = {-1, -1};
-			ErrorSignal errorSignal = getErrorSignal();
-			if (whitePixels > 0) {
-				movement = {70 + errorSignal.p, 70 - errorSignal.p}
-			}
-
-			return movement;
-		}
+		return movement;
+	}
 };

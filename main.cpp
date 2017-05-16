@@ -2,8 +2,6 @@
 #include <time.h>
 #include "E101.h"
 
-
-
 int main() {
 	init();
 	MazeSolver solver;
@@ -21,10 +19,8 @@ public:
 
 	void q2() {
 		while (true) {
-			Movement m = camera.getNextDirection();
-			set_motor(1, m.motorLeft);
-			set_motor(2, m.motorRight);
-			sleep1(0, 500)
+			this->camera.getNextDirection().move();
+			sleep1(0, 500);
 		}
 	}
 
