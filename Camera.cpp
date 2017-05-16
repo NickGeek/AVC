@@ -10,12 +10,12 @@ struct ErrorSignal {
 	int p;
 	int i;
 	int d;
-}
+};
 
 class Camera: public Sensor {
-	int whiteThreshold = 127;
-	int whitePixels = 0;
-	int totalError = 0;
+	int whiteThreshold;
+	int whitePixels;
+	int totalError;
 
 	/** Take every pixel visible and get the median to establish a threshold for white pixels */
 	int getWhiteThreshold() {
@@ -69,12 +69,12 @@ public:
 
 	Movement getNextDirection() {
 		ErrorSignal errorSignal = getErrorSignal();
-		Movement movement();
+		Movement movement;
 		if (whitePixels > 0) {
-			movement = {70 + (errorSignal.p + errorSignal.i + errorSignal.d), 70 - (errorSignal.p + errorSignal.i + errorSignal.d)}
+			movement.setMotor(70 + (errorSignal.p + errorSignal.i + errorSignal.d), 70 - (errorSignal.p + errorSignal.i + errorSignal.d));
 		}
 		else {
-			//TODO: Reverse at different angle
+			movement.setMotor(-127, -127);
 		}
 
 		return movement;
