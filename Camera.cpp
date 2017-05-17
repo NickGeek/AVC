@@ -13,68 +13,75 @@ struct ErrorSignal {
 };
 
 class Camera: public Sensor {
-	int whiteThreshold;
 	int whitePixels;
 	int totalError;
 
-	/** Take every pixel visible and get the median to establish a threshold for white pixels */
-	int getWhiteThreshold() {
-		take_picture();
-
-		int sum = 0;
-		for (int pixelH = 0; pixelH < 320; pixelH++) {
-			for (int pixelV = 0; pixelV < 240; pixelV++) {
-				sum += get_pixel(pixelV, pixelH, 3);
-			}
-		}
-
-		return sum/76800;
-	}
-
 	/** Get current PID values */
 	ErrorSignal getErrorSignal() {
+		this->whitePixels = 0;
 		int sum = 0;
 		int error = 0;
-		this->whitePixels = 0;
+		int whiteThreshold = 0;
 		ErrorSignal errorSignal = {0, 0 ,0};
+		int pixelWhiteness[320] = {};
 
 		/** PID Constants */
-		float kp = 0.5;
-		float ki = 0.5;
-		float kd = 0.5;
+		float kp = 0.0009;
+		float ki = 0.001;
+		float kd = 0.01;
 
 		take_picture();
-		for (int location = 0; location < 320; location++) {
-			int pixelH = get_pixel(120, location, 3);
-			if(pixelH > whiteThreshold) {
+		for (int i = 0; i < 320; i++) {
+			pixelWhiteness[i] = get_pixel(120, i, 3);
+			// printf("%d\n", pixelWhiteness[i]);
+			whiteThreshold += pixelWhiteness[i];
+		}
+		// whiteThreshold = whiteThreshold/320;
+		// printf("White threshold: %d\n", whiteThreshold);
+		whiteThreshold = 80;
+
+		for (int i = 0; i < 320; i++) {
+			if(pixelWhiteness[i] > whiteThreshold) {
 				whitePixels++;
 				sum = 1;
 			}
 			else {
 				sum = 0;
 			}
-			error = error + (location - 160) * sum;
+			error = error + (i - 160) * sum;
 			errorSignal.p = error * kp;
+
+			if (i <= 310) {
+				if (pixelWhiteness[i+10] > whiteThreshold) {
+					sum = 1;
+				}
+				else {
+					sum = 2;
+				}
+				int newError = error + (i - 160) * sum;
+				errorSignal.d = (newError-error)*kd;
+			}
 		}
 		this->totalError += error;
 		errorSignal.i = totalError*ki;
+		errorSignal.i = 0;
 
 		return errorSignal;
 	}
 
 public:
-	Camera() {
-		this->whiteThreshold = getWhiteThreshold();
-	}
-
 	Movement getNextDirection() {
 		ErrorSignal errorSignal = getErrorSignal();
 		Movement movement;
 		if (whitePixels > 0) {
-			movement.setMotor(70 + (errorSignal.p + errorSignal.i + errorSignal.d), 70 - (errorSignal.p + errorSignal.i + errorSignal.d));
+			printf("P: %d, I: %d D: %d\n", errorSignal.p, errorSignal.i, errorSignal.d);
+			// printf("%d\n", errorSignal.p);
+			movement.setMotor(40 - (errorSignal.p + errorSignal.i + errorSignal.d), 35 + (errorSignal.p + errorSignal.i + errorSignal.d));
 		}
 		else {
-			movement.setMotor(-127, -127);
+			// printf("Test\n");
+			movement.setMotor(-40, -35);
+			// movement.setMotor(0, 0);
 		}
 
 		return movement;

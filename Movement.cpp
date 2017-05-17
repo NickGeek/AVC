@@ -13,17 +13,18 @@ public:
 	}
 
 	void setMotor(int motorLeft, int motorRight) {
-		if (motorLeft > 255) motorLeft = 255;
-		if (motorRight > 255) motorRight = 255;
-		if (motorLeft < 0) motorLeft = 0;
-		if (motorRight < 0) motorRight = 0;
+		if (motorLeft > 255) motorLeft = 254;
+		if (motorRight > 255) motorRight = 254;
+		if (motorLeft < -255) motorLeft = -254;
+		if (motorRight < -255) motorRight = -254;
 
 		this->motorLeft = motorLeft;
 		this->motorRight = motorRight;
 	}
 
 	void move() {
-		set_motor(1, this->motorLeft);
-		set_motor(2, this->motorRight);
+		// printf("%d:%d\n", this->motorLeft, this->motorRight);
+		set_motor(1, this->motorLeft*-1);
+		set_motor(2, this->motorRight-5);
 	}
 };

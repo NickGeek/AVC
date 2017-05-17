@@ -1,2 +1,2 @@
 output:main.cpp
-	g++ -Wall -o output "main.cpp" -le101
+	g++ -o output "main.cpp" -le101
