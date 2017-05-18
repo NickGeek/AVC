@@ -9,6 +9,7 @@ using namespace std;
 class Camera: public Sensor {
 	int whitePixels;
 	int totalError;
+	int whiteThreshold;
 
 	/** Get current PID values */
 	ErrorSignal getErrorSignal() {
@@ -64,6 +65,12 @@ class Camera: public Sensor {
 	}
 
 public:
+	Camera() {
+		this->whitePixels = 0;
+		this->totalError = 0;
+		this->whiteThreshold = 0;
+	}
+
 	Movement getNextDirection() {
 		ErrorSignal errorSignal = getErrorSignal();
 		Movement movement;
