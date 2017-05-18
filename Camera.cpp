@@ -49,6 +49,10 @@ class Camera: public Sensor {
 		// errorSignal.i = totalError*ki;
 		errorSignal.i = 0;
 
+		if (this->whitePixels > 300) {
+			this->quadrant = 3;
+		}
+
 		return errorSignal;
 	}
 
@@ -65,14 +69,15 @@ public:
 
 		if (whitePixels > 0) {
 			printf("P: %d, I: %d D: %d\n", errorSignal.p, errorSignal.i, errorSignal.d);
-			movement.setMotor(errorSignal);
+			movement.setMotion(errorSignal);
 		}
 		else {
 			if (this->quadrant < 3) {
-				movement.setMotor(-40, -40);
+				movement.setMotion(-40, -40);
 			}
 			else if (this->quadrant == 3) {
 				//TODO: Turn 90 degrees left
+				movement.setMotor(0, 0);
 			}
 		}
 

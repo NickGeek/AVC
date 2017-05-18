@@ -14,21 +14,25 @@ public:
 	}
 
 	Movement(int motorLeft, int motorRight) {
-		this->setMotor(motorLeft, motorRight);
+		this->setMotion(motorLeft, motorRight);
 	}
 
-	void setMotor(int motorLeft, int motorRight) {
+	void setMotion(int motorLeft, int motorRight) {
 		if (motorLeft > 255) motorLeft = 255;
 		if (motorRight > 255) motorRight = 255;
 		if (motorLeft < -255) motorLeft = -254;
 		if (motorRight < -255) motorRight = -254;
 
-		this->motorLeft = baseSpeed - motorLeft;
-		this->motorRight = (baseSpeed - 5) + motorRight;
+		this->setMotor(motorLeft, motorRight - 5);
 	}
 
-	void setMotor(ErrorSignal errorSignal) {
-		this->setMotor((errorSignal.p + errorSignal.i + errorSignal.d), (errorSignal.p + errorSignal.i + errorSignal.d));
+	void setMotion(ErrorSignal errorSignal) {
+		this->setMotion(this->baseSpeed + (errorSignal.p + errorSignal.i + errorSignal.d), this->baseSpeed + (errorSignal.p + errorSignal.i + errorSignal.d));
+	}
+
+	void setMotor(int motorLeft, int motorRight) {
+		this->motorLeft = motorLeft;
+		this->motorRight = motorRight;
 	}
 
 	void move() {
