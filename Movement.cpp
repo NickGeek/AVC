@@ -1,6 +1,10 @@
+#include "E101.h"
+#include "ErrorSignal.cpp"
+
 class Movement {
 	int motorLeft;
 	int motorRight;
+	int baseSpeed = 40;
 
 public:
 	Movement() {
@@ -13,13 +17,17 @@ public:
 	}
 
 	void setMotor(int motorLeft, int motorRight) {
-		if (motorLeft > 255) motorLeft = 254;
-		if (motorRight > 255) motorRight = 254;
+		if (motorLeft > 255) motorLeft = 255;
+		if (motorRight > 255) motorRight = 255;
 		if (motorLeft < -255) motorLeft = -254;
 		if (motorRight < -255) motorRight = -254;
 
-		this->motorLeft = motorLeft;
-		this->motorRight = motorRight;
+		this->motorLeft = baseSpeed - motorLeft;
+		this->motorRight = (baseSpeed - 5) + motorRight;
+	}
+
+	void setMotor(ErrorSignal errorSignal) {
+		this->setMotor((errorSignal.p + errorSignal.i + errorSignal.d), (errorSignal.p + errorSignal.i + errorSignal.d));
 	}
 
 	void move() {

@@ -6,12 +6,6 @@
 
 using namespace std;
 
-struct ErrorSignal {
-	int p;
-	int i;
-	int d;
-};
-
 class Camera: public Sensor {
 	int whitePixels;
 	int totalError;
@@ -76,11 +70,11 @@ public:
 		if (whitePixels > 0) {
 			printf("P: %d, I: %d D: %d\n", errorSignal.p, errorSignal.i, errorSignal.d);
 			// printf("%d\n", errorSignal.p);
-			movement.setMotor(40 - (errorSignal.p + errorSignal.i + errorSignal.d), 35 + (errorSignal.p + errorSignal.i + errorSignal.d));
+			movement.setMotor(errorSignal);
 		}
 		else {
 			// printf("Test\n");
-			movement.setMotor(-40, -35);
+			movement.setMotor(-40, -40);
 			// movement.setMotor(0, 0);
 		}
 
