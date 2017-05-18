@@ -2,7 +2,6 @@
 #include <time.h>
 #include "E101.h"
 #include "Sensor.cpp"
-#include "Movement.cpp"
 
 using namespace std;
 
@@ -63,12 +62,18 @@ public:
 	Movement getNextDirection() {
 		ErrorSignal errorSignal = getErrorSignal();
 		Movement movement;
+
 		if (whitePixels > 0) {
 			printf("P: %d, I: %d D: %d\n", errorSignal.p, errorSignal.i, errorSignal.d);
 			movement.setMotor(errorSignal);
 		}
 		else {
-			movement.setMotor(-40, -40);
+			if (this->quadrant < 3) {
+				movement.setMotor(-40, -40);
+			}
+			else if (this->quadrant == 3) {
+				//TODO: Turn 90 degrees left
+			}
 		}
 
 		return movement;

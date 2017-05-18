@@ -4,12 +4,13 @@
 class Movement {
 	int motorLeft;
 	int motorRight;
-	int baseSpeed = 40;
+	int baseSpeed;
 
 public:
 	Movement() {
 		this->motorLeft = 0;
 		this->motorRight = 0;
+		this->baseSpeed = 40;
 	}
 
 	Movement(int motorLeft, int motorRight) {

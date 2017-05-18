@@ -11,6 +11,7 @@ public:
 	}
 
 	void q2() {
+		this->camera.quadrant = 2;
 		while (true) {
 			this->camera.getNextDirection().move();
 			sleep1(0, 100000);
@@ -18,11 +19,11 @@ public:
 	}
 
 	void q3() {
-
+		this->camera.quadrant = 3;
 	}
 
 	void q4() {
-
+		this->camera.quadrant = 4;
 	}
 };
 
