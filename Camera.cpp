@@ -47,7 +47,7 @@ class Camera: public Sensor {
 			}
 		}
 		this->totalError += error;
-		errorSignal.i = totalError*ki;
+		// errorSignal.i = totalError*ki;
 		errorSignal.i = 0;
 
 		return errorSignal;
@@ -65,13 +65,10 @@ public:
 		Movement movement;
 		if (whitePixels > 0) {
 			printf("P: %d, I: %d D: %d\n", errorSignal.p, errorSignal.i, errorSignal.d);
-			// printf("%d\n", errorSignal.p);
 			movement.setMotor(errorSignal);
 		}
 		else {
-			// printf("Test\n");
 			movement.setMotor(-40, -40);
-			// movement.setMotor(0, 0);
 		}
 
 		return movement;
