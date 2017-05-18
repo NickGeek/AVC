@@ -16,9 +16,7 @@ class Camera: public Sensor {
 		this->whitePixels = 0;
 		int sum = 0;
 		int error = 0;
-		int whiteThreshold = 0;
 		ErrorSignal errorSignal = {0, 0 ,0};
-		int pixelWhiteness[320] = {};
 
 		/** PID Constants */
 		float kp = 0.0009;
@@ -27,16 +25,7 @@ class Camera: public Sensor {
 
 		take_picture();
 		for (int i = 0; i < 320; i++) {
-			pixelWhiteness[i] = get_pixel(120, i, 3);
-			// printf("%d\n", pixelWhiteness[i]);
-			whiteThreshold += pixelWhiteness[i];
-		}
-		// whiteThreshold = whiteThreshold/320;
-		// printf("White threshold: %d\n", whiteThreshold);
-		whiteThreshold = 80;
-
-		for (int i = 0; i < 320; i++) {
-			if(pixelWhiteness[i] > whiteThreshold) {
+			if(get_pixel(120, i, 3) > this->whiteThreshold) {
 				whitePixels++;
 				sum = 1;
 			}
@@ -47,7 +36,7 @@ class Camera: public Sensor {
 			errorSignal.p = error * kp;
 
 			if (i <= 310) {
-				if (pixelWhiteness[i+10] > whiteThreshold) {
+				if (get_pixel(120, i+10, 3) > this->whiteThreshold) {
 					sum = 1;
 				}
 				else {
