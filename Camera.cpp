@@ -75,13 +75,10 @@ public:
 		Movement movement;
 		if (whitePixels > 0) {
 			printf("P: %d, I: %d D: %d\n", errorSignal.p, errorSignal.i, errorSignal.d);
-			// printf("%d\n", errorSignal.p);
 			movement.setMotor(40 - (errorSignal.p + errorSignal.i + errorSignal.d), 35 + (errorSignal.p + errorSignal.i + errorSignal.d));
 		}
 		else {
-			// printf("Test\n");
-			movement.setMotor(-40, -35);
-			// movement.setMotor(0, 0);
+			movement.setMotor(-50, -45);
 		}
 
 		return movement;
