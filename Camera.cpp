@@ -19,7 +19,7 @@ class Camera: public Sensor {
 
 		/** PID Constants */
 		float kp = 0.0009;
-		float ki = 0.001;
+		float ki = 0; //We are not going to use this
 		float kd = 0.01;
 
 		take_picture();
@@ -34,20 +34,17 @@ class Camera: public Sensor {
 			error = error + (i - 160) * sum;
 			errorSignal.p = error * kp;
 
-			if (i <= 310) {
-				if (get_pixel(120, i+10, 3) > this->whiteThreshold) {
-					sum = 1;
-				}
-				else {
-					sum = 2;
-				}
-				int newError = error + (i - 160) * sum;
-				errorSignal.d = (newError-error)*kd;
+			if (get_pixel(110, i, 3) > this->whiteThreshold) {
+				sum = 1;
 			}
+			else {
+				sum = 2;
+			}
+			int newError = error + (i - 160) * sum;
+			errorSignal.d = (newError-error)*kd;
 		}
 		this->totalError += error;
-		// errorSignal.i = totalError*ki;
-		errorSignal.i = 0;
+		errorSignal.i = totalError*ki;
 
 		if (this->whitePixels > 300) {
 			this->quadrant = 3;
