@@ -21,27 +21,17 @@ class Camera: public Sensor {
 		this->whitePixels = 0;
 		int sum = 0;
 		int error = 0;
-		int whiteThreshold = 0;
+		int whiteThreshold = 80;
 		ErrorSignal errorSignal = {0, 0 ,0};
-		int pixelWhiteness[320] = {};
 
 		/** PID Constants */
 		float kp = 0.0009;
-		float ki = 0.001;
+		float ki = 0;
 		float kd = 0.01;
 
 		take_picture();
 		for (int i = 0; i < 320; i++) {
-			pixelWhiteness[i] = get_pixel(120, i, 3);
-			// printf("%d\n", pixelWhiteness[i]);
-			whiteThreshold += pixelWhiteness[i];
-		}
-		// whiteThreshold = whiteThreshold/320;
-		// printf("White threshold: %d\n", whiteThreshold);
-		whiteThreshold = 80;
-
-		for (int i = 0; i < 320; i++) {
-			if(pixelWhiteness[i] > whiteThreshold) {
+			if(get_pixel(120, i, 3) > whiteThreshold) {
 				whitePixels++;
 				sum = 1;
 			}
@@ -51,20 +41,17 @@ class Camera: public Sensor {
 			error = error + (i - 160) * sum;
 			errorSignal.p = error * kp;
 
-			if (i <= 310) {
-				if (pixelWhiteness[i+10] > whiteThreshold) {
-					sum = 1;
-				}
-				else {
-					sum = 2;
-				}
-				int newError = error + (i - 160) * sum;
-				errorSignal.d = (newError-error)*kd;
+			if (get_pixel(110, i, 3) > whiteThreshold) {
+				sum = 1;
 			}
+			else {
+				sum = 2;
+			}
+			int newError = error + (i - 160) * sum;
+			errorSignal.d = (newError-error)*kd;
 		}
 		this->totalError += error;
 		errorSignal.i = totalError*ki;
-		errorSignal.i = 0;
 
 		return errorSignal;
 	}
