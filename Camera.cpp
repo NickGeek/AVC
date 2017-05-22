@@ -47,10 +47,16 @@ class Camera: public Sensor {
 		this->totalError += error;
 		errorSignal.i = totalError*ki;
 
+		if (this->whitePixels > 300) this->quad = 3;
+
 		return errorSignal;
 	}
 
 public:
+	Camera() {
+		this->quad = 1;
+	}
+
 	Movement getNextDirection() {
 		ErrorSignal errorSignal = getErrorSignal();
 		Movement movement;
@@ -58,6 +64,9 @@ public:
 			printf("P: %d, I: %d D: %d\n", errorSignal.p, errorSignal.i, errorSignal.d);
 			// movement.setMotor(40 - (errorSignal.p + errorSignal.i + errorSignal.d), 35 + (errorSignal.p + errorSignal.i + errorSignal.d));
 			movement.setMotion(errorSignal);
+		}
+		else if (quad == 3) {
+			movement.setMotor(-40, 35);
 		}
 		else {
 			movement.setMotor(-50, -45);
