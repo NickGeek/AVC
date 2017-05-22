@@ -20,7 +20,7 @@ public:
 	void q2() {
 		while (true) {
 			this->camera.getNextDirection().move();
-			if (this->camera->quad == 3) {
+			if (this->camera.quad == 3 && this->camera.turning) {
 				sleep1(0, 500000);
 			}
 			else {

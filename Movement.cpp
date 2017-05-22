@@ -25,11 +25,11 @@ public:
 	}
 
 	void setMotion(ErrorSignal errorSignal) {
-		setMotor(baseSpeed + motorLeft, (baseSpeed - 5) + motorRight);
+		setMotor(baseSpeed - (errorSignal.p + errorSignal.i + errorSignal.d), (baseSpeed - 5) + (errorSignal.p + errorSignal.i + errorSignal.d));
 	}
 
 	void move() {
-		printf("%d:%d\n", this->motorLeft*-1, this->motorRight);
+		// printf("%d:%d\n", this->motorLeft*-1, this->motorRight);
 		set_motor(1, this->motorLeft*-1);
 		set_motor(2, this->motorRight);
 	}
