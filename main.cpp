@@ -1,6 +1,13 @@
 #include <stdio.h>
 #include <time.h>
 #include "E101.h"
+
+struct ErrorSignal {
+	int p;
+	int i;
+	int d;
+};
+
 #include "Camera.cpp"
 
 class MazeSolver {

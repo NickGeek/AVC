@@ -1,10 +1,3 @@
-
-struct ErrorSignal {
-	int p;
-	int i;
-	int d;
-};
-
 class Movement {
 	int motorLeft;
 	int motorRight;

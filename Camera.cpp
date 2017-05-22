@@ -6,12 +6,6 @@
 
 using namespace std;
 
-struct ErrorSignal {
-	int p;
-	int i;
-	int d;
-};
-
 class Camera: public Sensor {
 	int whitePixels;
 	int totalError;
