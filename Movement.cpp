@@ -1,15 +1,17 @@
 class Movement {
 	int motorLeft;
 	int motorRight;
+	int baseSpeed;
 
 public:
 	Movement() {
-		this->motorLeft = 0;
-		this->motorRight = 0;
+		this->baseSpeed = 40;
+		setMotor(0, 0);
 	}
 
 	Movement(int motorLeft, int motorRight) {
-		this->setMotor(motorLeft, motorRight);
+		this->baseSpeed = 40;
+		setMotor(motorLeft, motorRight);
 	}
 
 	void setMotor(int motorLeft, int motorRight) {
@@ -22,9 +24,13 @@ public:
 		this->motorRight = motorRight;
 	}
 
+	void setMotion(ErrorSignal errorSignal) {
+		setMotor(baseSpeed + motorLeft, (baseSpeed - 5) + motorRight);
+	}
+
 	void move() {
-		// printf("%d:%d\n", this->motorLeft, this->motorRight);
+		printf("%d:%d\n", this->motorLeft*-1, this->motorRight);
 		set_motor(1, this->motorLeft*-1);
-		set_motor(2, this->motorRight-5);
+		set_motor(2, this->motorRight);
 	}
 };
