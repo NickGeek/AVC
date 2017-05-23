@@ -2,7 +2,6 @@
 #include <time.h>
 #include "E101.h"
 #include "Sensor.cpp"
-#include "Movement.cpp"
 
 struct ErrorSignal {
 	int p;
@@ -10,6 +9,7 @@ struct ErrorSignal {
 	int d;
 };
 
+#include "Movement.cpp"
 #include "Camera.cpp"
 #include "IR.cpp"
 
