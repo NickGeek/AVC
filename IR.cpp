@@ -21,4 +21,4 @@ public:
 		Movement movement;
 		movement.setMotion(getErrorSignal());
 	}
-}
+};
