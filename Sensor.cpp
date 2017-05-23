@@ -10,14 +10,16 @@ public:
 	bool turning;
 
 protected:
-	int maxValue = 0;
+	int maxValue = 1;
 	int minValue = 0;
 
 	int getRelativeValue(int sensorValue) {
-		if (sensorValue > maxValue) maxValue = sensorValue;
-		if (sensorValue < minValue) minValue = sensorValue;
+		if (sensorValue > this->maxValue) this->maxValue = sensorValue;
+		if (sensorValue < this->minValue) this->minValue = sensorValue;
 
 		//TODO: Get relative value
-		return -1;
+		int relValue = ((float)sensorValue/this->maxValue)*255;
+		if (relValue > 255) relValue = 255;
+		return relValue;
 	}
 };

@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <time.h>
 #include "E101.h"
+#include "Sensor.cpp"
+#include "Movement.cpp"
 
 struct ErrorSignal {
 	int p;
@@ -9,9 +11,11 @@ struct ErrorSignal {
 };
 
 #include "Camera.cpp"
+#include "IR.cpp"
 
 class MazeSolver {
 	Camera camera;
+	IR ir;
 
 	void openNetworkGate() {
 		//TODO: Move in a straight line and open gate
@@ -36,7 +40,10 @@ class MazeSolver {
 	}
 
 	void wallDriver() {
-
+		while (this->camera.quad == 4) {
+			this->ir.getNextDirection().move();
+			sleep1(0, 100000);
+		}
 	}
 public:
 	void doMaze() {
