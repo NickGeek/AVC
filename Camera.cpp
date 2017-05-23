@@ -9,9 +9,8 @@ using namespace std;
 class Camera: public Sensor {
 	int whitePixels;
 	int totalError;
-	int turnCount;
-	char turnType;
-	int whiteThreshold = 110;
+	int whiteThreshold;
+	int atTIntersection;
 
 	/** Get current PID values */
 	ErrorSignal getErrorSignal() {
@@ -19,10 +18,6 @@ class Camera: public Sensor {
 		int sum = 0;
 		int error = 0;
 		ErrorSignal errorSignal = {0, 0 ,0};
-		int leftWhiteCount = 0;
-		int rightWhiteCount = 0;
-		int diffPixels = 0;
-
 
 		/** PID Constants */
 		float kp = 0.002;
@@ -35,10 +30,6 @@ class Camera: public Sensor {
 			if(get_pixel(120, i, 3) > whiteThreshold) {
 				whitePixels++;
 				sum = 1;
-
-				if (i <= 160) leftWhiteCount++;
-				if (i > 160) rightWhiteCount++;
-
 			}
 			else {
 				sum = 0;
@@ -58,23 +49,12 @@ class Camera: public Sensor {
 		}
 		this->totalError += error;
 		errorSignal.i = totalError*ki;
-		diffPixels = leftWhiteCount - rightWhiteCount; //If -ve right-heavy, if +ve left heavy
 
-		// printf("%d\n", diffPixels);
-		// if (diffPixels > 150) {
-		// 	this->turnType = 'L';
-		// }
-		// else if (diffPixels < -150) {
-		// 	this->turnType = 'R';
-		// }
-		// else {
-		// 	this->turnType = 'P';
-		// }
-
-		// if (this->whitePixels > 310) {
-		// 	printf("Q3 TIME!!!!!\n");
-		// 	this->quad = 3;
-		// }
+		if (whitePixels > 310) {
+			this->quad = 3;
+			this->atTIntersection = true;
+			printf("Q3 PARTY TIME!\n");
+		}
 
 		return errorSignal;
 	}
@@ -83,42 +63,25 @@ public:
 	Camera() {
 		this->quad = 1;
 		this->turning = false;
-		this->turnCount = 0;
-		// this->isAtJunction = false;
+		this->whiteThreshold = 110;
+		this->atTIntersection = false;
 	}
 
 	Movement getNextDirection() {
 		this->turning = false;
 		ErrorSignal errorSignal = getErrorSignal();
 		Movement movement;
-		// printf("%d\n", whitePixels);
-		// if (this->quad == 3) {
-		// 	switch (this->turnType) {
-		// 		case 'L':
-		// 			movement.setMotor(-40, 35);
-		// 			return movement;
-		// 			break;
 
-		// 		case 'R':
-		// 			movement.setMotor(40, -35);
-		// 			return movement;
-		// 			break;
-		// 	}
-		// }
+		if (this->quad == 3 && this->atTIntersection) {
+			movement.setMotor(-40, 35);
+			this->atTIntersection = false;
+		}
 
 		if (whitePixels > 0) {
 			// printf("P: %d, I: %d D: %d\n", errorSignal.p, errorSignal.i, errorSignal.d);
 			// movement.setMotor(40 - (errorSignal.p + errorSignal.i + errorSignal.d), 35 + (errorSignal.p + errorSignal.i + errorSignal.d));
 			movement.setMotion(errorSignal);
 		}
-		// else if (this->quad == 3) {
-			
-
-		// 	this->turnType = 'P';
-		// 	this->turnCount++;
-		// 	this->turning = true;
-			
-		// }
 		else {
 			movement.setMotor(-50, -45);
 		}
