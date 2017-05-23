@@ -1,7 +1,7 @@
 // #include <stdio.h>
 // #include <time.h>
 // #include "E101.h"
-#include "Movement.cpp"
+// #include "Movement.cpp"
 
 using namespace std;
 
@@ -53,14 +53,18 @@ class Camera: public Sensor {
 
 			/** Find out about glorious communist red pixels */
 			if (get_pixel(120, i, 0) > 230) {
-				this->quad = 4;
-				printf("Q4!!!\n");
-				errorSignal = {0, 0, 0};
-				return errorSignal;
+				redPixels++;
 			}
 		}
 		this->totalError += error;
 		errorSignal.i = totalError*ki;
+
+		if (redPixels > 300) {
+			this->quad = 4;
+			printf("Q4!!!\n");
+			errorSignal = {0, 0, 0};
+			return errorSignal;
+		}
 
 		if (whitePixels > 310) {
 			if (this->quad == 3) {
@@ -68,7 +72,6 @@ class Camera: public Sensor {
 			}
 			else {
 				this->quad = 3;
-				kp = 0.002;
 				printf("Q3 PARTY TIME!\n");
 			}
 		}
@@ -80,7 +83,7 @@ public:
 	Camera() {
 		this->quad = 1;
 		this->turning = false;
-		this->whiteThreshold = 110;
+		this->whiteThreshold = 80;
 		this->atTIntersection = false;
 	}
 
@@ -90,6 +93,7 @@ public:
 		Movement movement;
 
 		if (this->quad == 3 && this->atTIntersection) {
+			this->kp = 0.002;
 			movement.setMotor(-40, 35);
 			this->atTIntersection = false;
 		}
