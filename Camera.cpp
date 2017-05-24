@@ -126,11 +126,7 @@ public:
 		ErrorSignal errorSignal = getErrorSignal();
 		Movement movement;
 
-		if (this->quad == 3 && this->atTIntersection {
-			this->atTIntersection = false;
-			this->turning = true;
-			movement.setMotor(20, 55);
-			printf("intersection\n");
+		
 		//} else if (this->atLeftTurn && this->straight==true){
 			//movement.setMotor(10, 45);
 			//this->atLeftTurn = false;
@@ -143,14 +139,18 @@ public:
 			//this->turning = true;
 			//this->straight = true;
 			//printf("right turn\n");
-		} else if (this->whitePixels > 0) {
+		if (this->whitePixels > 0) {
 			// printf("P: %d, I: %d D: %d\n", errorSignal.p, errorSignal.i, errorSignal.d);
 			// movement.setMotor(40 - (errorSignal.p + errorSignal.i + errorSignal.d), 35 + (errorSignal.p + errorSignal.i + errorSignal.d));
 			this->turning = false;
 			movement.setMotion(errorSignal);
 			
 			
-		}
+		} else if (this->quad == 3 && this->atTIntersection {
+			this->atTIntersection = false;
+			this->turning = true;
+			movement.setMotor(20, 55);
+			printf("intersection\n");
 		else {
 			this->turning = false;
 			movement.setMotor(-50, -45);
