@@ -32,9 +32,11 @@ class MazeSolver {
 			this->camera.getNextDirection().move();
 			if (this->camera.quad == 3 && this->camera.turning) {
 				sleep1(0, 500000);
+				printf("increased");
 			}
 			else {
 				sleep1(0, 100000);
+				printf("regular");
 			}
 		}
 	}
