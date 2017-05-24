@@ -31,7 +31,7 @@ class MazeSolver {
 		while (this->camera.quad < 4) {
 			this->camera.getNextDirection().move();
 			if (this->camera.quad == 3 && this->camera.turning) {
-				sleep1(0, 800000);
+				sleep1(0, 500000);
 			}
 			else {
 				sleep1(0, 100000);
