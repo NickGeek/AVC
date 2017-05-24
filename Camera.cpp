@@ -119,15 +119,15 @@ public:
 		Movement movement;
 
 		if (this->quad == 3 && this->atTIntersection) {
-			movement.setMotor(-40, 0);
+			movement.setMotor(40, 0);
 			this->atTIntersection = false;
 			this->turning = true;
 		} else if (this->atLeftTurn && counter>2){
-			movement.setMotor(-40, 0);
+			movement.setMotor(40, 0);
 			this->atLeftTurn = false;
 			this->turning = true;
 		} else if (this->atRightTurn){
-			movement.setMotor(0, -40);
+			movement.setMotor(0, 40);
 			this->atRightTurn = false;
 			this->turning = true;
 		} else if (whitePixels > 0) {
