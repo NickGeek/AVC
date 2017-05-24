@@ -121,9 +121,6 @@ class Camera: public Sensor {
 public:
 	Camera() {
 		this->quad = 1;
-		this->atTIntersection = false;
-		this->atRightTurn = false;
-		this->atLeftTurn = false;
 	}
 
 	Movement getNextDirection() {
@@ -163,7 +160,7 @@ public:
 				printf("intersection\n");
 			} else {
 				this->turning = false;
-				movement.setMotor(-25, -25);
+				movement.setMotor(-30, -30);
 			}
 		}
 		
