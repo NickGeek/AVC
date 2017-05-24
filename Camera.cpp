@@ -156,7 +156,7 @@ public:
 			} else {
 				this->turning = false;
 				movement.setMotor(-50, -45);
-			
+			}
 		}
 
 		return movement;
