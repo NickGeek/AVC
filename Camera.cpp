@@ -80,7 +80,7 @@ class Camera: public Sensor {
 			}
 			else {
 				this->quad = 3;
-				this->kp = 0.003;
+				this->kp = 0.0025;
 				printf("Q3 PARTY TIME!\n");
 				sleep1(0, 800000);
 			}
