@@ -80,8 +80,8 @@ class Camera: public Sensor {
 				printf("Q3 PARTY TIME!\n");
 			}
 		}
-		for (int n = 160; n < 320; n++){
-			int pixelValue = get_pixel(120, i, 3);	
+		for (int l = 160; l < 320; l++){
+			int pixelValue = get_pixel(120, l, 3);	
 			if(pixelValue > whiteThreshold) {
 				whitePixelsLeft++;
 			}	
@@ -91,8 +91,8 @@ class Camera: public Sensor {
 			this->atLeftTurn = true;
 			counter++;
 		}
-		for (r = 0; r < 160; r++){
-			int pixelValue = get_pixel(120, i, 3);	
+		for (int r = 0; r < 160; r++){
+			int pixelValue = get_pixel(120, r, 3);	
 			if(pixelValue > whiteThreshold) {
 				whitePixelsRight++;
 			}	
