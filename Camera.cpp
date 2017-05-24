@@ -106,7 +106,7 @@ class Camera: public Sensor {
 public:
 	Camera() {
 		this->quad = 1;
-    whitethreshold = 120;
+    		whitethreshold = 120;
 		this->atTIntersection = false;
 	}
 
