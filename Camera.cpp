@@ -164,7 +164,7 @@ public:
 			} else {
 				this->turning = false;
 				movement.setMotor(-25, -25);
-				this->kp = 0.003
+				this->kp = 0.003;
 			}
 		}
 		
