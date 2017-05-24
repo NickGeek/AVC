@@ -84,6 +84,10 @@ class Camera: public Sensor {
 				printf("Q3 PARTY TIME!\n");
 			}
 		}
+		
+		
+		//experimental stuff below
+		
 		for (int l = 160; l < 320; l++){
 			int pixelValue = get_pixel(120, l, 3);	
 			if(pixelValue > whiteThreshold) {
@@ -122,12 +126,11 @@ public:
 		ErrorSignal errorSignal = getErrorSignal();
 		Movement movement;
 
-		if (this->quad == 3 && this->atTIntersection && this->straight==false) {
-			movement.setMotor(20, 45);
+		if (this->quad == 3 && this->atTIntersection {
 			this->atTIntersection = false;
 			this->turning = true;
+			movement.setMotor(20, 55);
 			printf("intersection\n");
-			this->straight = true;
 		//} else if (this->atLeftTurn && this->straight==true){
 			//movement.setMotor(10, 45);
 			//this->atLeftTurn = false;
@@ -143,14 +146,13 @@ public:
 		} else if (this->whitePixels > 0) {
 			// printf("P: %d, I: %d D: %d\n", errorSignal.p, errorSignal.i, errorSignal.d);
 			// movement.setMotor(40 - (errorSignal.p + errorSignal.i + errorSignal.d), 35 + (errorSignal.p + errorSignal.i + errorSignal.d));
-			turning = false;
-			this->straight = false;
+			this->turning = false;
 			movement.setMotion(errorSignal);
 			
 			
 		}
 		else {
-			turning = false;
+			this->turning = false;
 			movement.setMotor(-50, -45);
 			
 		}
