@@ -28,6 +28,8 @@ class Camera: public Sensor {
 		int redPixels = 0;
 		int sum = 0;
 		int error = 0;
+		this->atRightTurn = false;
+		this->atLeftTurn = false;
 		ErrorSignal errorSignal = {0, 0 ,0};
 		whiteThreshold = 120;
 
@@ -164,8 +166,7 @@ public:
 				movement.setMotor(-25, -25);
 			}
 		}
-		this->atRightTurn = false;
-		this->atLeftTurn = false;
+		
 		return movement;
 	}
 };
