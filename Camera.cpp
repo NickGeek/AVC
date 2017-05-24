@@ -160,7 +160,7 @@ public:
 				printf("intersection\n");
 			} else {
 				this->turning = false;
-				movement.setMotor(-50, -45);
+				movement.setMotor(-30, -25);
 			}
 		}
 		this->atRightTurn = false;
