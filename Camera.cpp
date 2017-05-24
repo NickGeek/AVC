@@ -146,15 +146,16 @@ public:
 			movement.setMotion(errorSignal);
 			
 			
-		} else if (this->quad == 3 && this->atTIntersection){
-			movement.setMotor(-30, -25);
-			this->atTIntersection = false;
-			this->turning = true;
-			movement.setMotor(20, 55);
-			printf("intersection\n");
 		} else {
-			this->turning = false;
-			movement.setMotor(-50, -45);
+			movement.setMotor(-30, -25);
+			if (this->quad == 3 && this->atTIntersection){
+				this->atTIntersection = false;
+				this->turning = true;
+				movement.setMotor(20, 55);
+				printf("intersection\n");
+			} else {
+				this->turning = false;
+				movement.setMotor(-50, -45);
 			
 		}
 
