@@ -106,13 +106,12 @@ class Camera: public Sensor {
 public:
 	Camera() {
 		this->quad = 1;
-		this->turning = false;
-		this->whiteThreshold = 120;
+    whitethreshold = 120;
 		this->atTIntersection = false;
 	}
 
 	Movement getNextDirection() {
-		this->turning = false;
+		boolean turning = false;
 		ErrorSignal errorSignal = getErrorSignal();
 		Movement movement;
 
