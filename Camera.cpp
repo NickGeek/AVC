@@ -154,7 +154,7 @@ public:
 			
 		} else {
 			movement.setMotor(-20, -20);
-			sleep1(0, 100000);
+			sleep1(0, 10000);
 			if (this->quad == 3 && this->atTIntersection){
 				this->atTIntersection = false;
 
@@ -164,6 +164,7 @@ public:
 			} else {
 				this->turning = false;
 				movement.setMotor(-25, -25);
+				this->kp = 0.003
 			}
 		}
 		
