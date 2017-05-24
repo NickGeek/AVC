@@ -151,7 +151,8 @@ public:
 			
 			
 		} else {
-			movement.setMotor(-30, -25);
+			movement.setMotor(-20, -15);
+			sleep1(0, 100000);
 			if (this->quad == 3 && this->atTIntersection){
 				this->atTIntersection = false;
 
