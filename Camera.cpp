@@ -82,6 +82,7 @@ class Camera: public Sensor {
 				this->quad = 3;
 				this->kp = 0.002;
 				printf("Q3 PARTY TIME!\n");
+				sleep1(0, 800000);
 			}
 		}
 		
@@ -108,6 +109,9 @@ class Camera: public Sensor {
 		if (whitePixelsRight>=140 && this->quad == 3){
 			
 			this->atRightTurn = true;
+		}
+		if (this->atRightTurn = true && this->atLeftTurn = true){
+			this->atTIntersection = true;
 		}
 		return errorSignal;
 	}
