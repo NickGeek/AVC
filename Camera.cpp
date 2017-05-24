@@ -130,14 +130,14 @@ public:
 			movement.setMotor(0, 40);
 			this->atRightTurn = false;
 			this->turning = true;
-		} else if (whitePixels > 0) {
+		} else if (this->whitePixels > 0) {
 			// printf("P: %d, I: %d D: %d\n", errorSignal.p, errorSignal.i, errorSignal.d);
 			// movement.setMotor(40 - (errorSignal.p + errorSignal.i + errorSignal.d), 35 + (errorSignal.p + errorSignal.i + errorSignal.d));
 			movement.setMotion(errorSignal);
 		}
 		else {
 			movement.setMotor(-50, -45);
-			printf("test2");
+			printf("test2\n");
 		}
 
 		return movement;
