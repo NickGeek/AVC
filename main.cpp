@@ -43,7 +43,7 @@ class MazeSolver {
 	void wallDriver() {
 		while (this->camera.quad == 4) {
 			this->ir.getNextDirection().move();
-			sleep1(0, 100000);
+			sleep1(0, 200000);
 		}
 	}
 public:
