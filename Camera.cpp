@@ -9,11 +9,12 @@ class Camera: public Sensor {
 	int whitePixels;
 	int totalError;
 	int whiteThreshold;
-	int atTIntersection;
+	bool atTIntersection;
 	int counter;
 	int whitePixelsLeft;
-	int atLeftTurn;
-	int atRightTurn;
+	int whitePixelsRight;
+	bool atLeftTurn;
+	bool atRightTurn;
 		
 	/** PID Constants */
 	float kp = 0.001;
@@ -79,7 +80,7 @@ class Camera: public Sensor {
 				printf("Q3 PARTY TIME!\n");
 			}
 		}
-		for (i = 160; i < 320; i++){
+		for (int n = 160; n < 320; n++){
 			int pixelValue = get_pixel(120, i, 3);	
 			if(pixelValue > whiteThreshold) {
 				whitePixelsLeft++;
@@ -90,7 +91,7 @@ class Camera: public Sensor {
 			this->atLeftTurn = true;
 			counter++;
 		}
-		for (i = 0; i < 160; i++){
+		for (r = 0; r < 160; r++){
 			int pixelValue = get_pixel(120, i, 3);	
 			if(pixelValue > whiteThreshold) {
 				whitePixelsRight++;
@@ -106,12 +107,14 @@ class Camera: public Sensor {
 public:
 	Camera() {
 		this->quad = 1;
-    		whitethreshold = 120;
 		this->atTIntersection = false;
+		this->atRightTurn = false;
+		this->atLeftTurn = false;
 	}
 
 	Movement getNextDirection() {
-		boolean turning = false;
+		bool turning;
+		turning = false;
 		ErrorSignal errorSignal = getErrorSignal();
 		Movement movement;
 
