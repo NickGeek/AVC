@@ -88,7 +88,7 @@ class Camera: public Sensor {
 			}	
 		}
 		if (whitePixelsLeft>=140 && this->quad == 3){
-			printf("left turn\n");
+			
 			this->atLeftTurn = true;
 			counter++;
 		}
@@ -99,7 +99,7 @@ class Camera: public Sensor {
 			}	
 		}
 		if (whitePixelsRight>=140 && this->quad == 3){
-			printf("right turn\n");
+			
 			this->atRightTurn = true;
 		}
 		return errorSignal;
@@ -123,14 +123,17 @@ public:
 			movement.setMotor(40, 0);
 			this->atTIntersection = false;
 			this->turning = true;
+			printf("intersection");
 		} else if (this->atLeftTurn && counter>2){
 			movement.setMotor(40, 0);
 			this->atLeftTurn = false;
 			this->turning = true;
+			printf("left turn\n");
 		} else if (this->atRightTurn){
 			movement.setMotor(0, 40);
 			this->atRightTurn = false;
 			this->turning = true;
+			printf("right turn\n");
 		} else if (this->whitePixels > 0) {
 			// printf("P: %d, I: %d D: %d\n", errorSignal.p, errorSignal.i, errorSignal.d);
 			// movement.setMotor(40 - (errorSignal.p + errorSignal.i + errorSignal.d), 35 + (errorSignal.p + errorSignal.i + errorSignal.d));
@@ -138,7 +141,7 @@ public:
 		}
 		else {
 			movement.setMotor(-50, -45);
-			printf("test2\n");
+			printf("back\n");
 		}
 
 		return movement;
