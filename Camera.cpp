@@ -28,6 +28,7 @@ class Camera: public Sensor {
 		int sum = 0;
 		int error = 0;
 		ErrorSignal errorSignal = {0, 0 ,0};
+		whiteThreshold = 120;
 
 
 		take_picture();
