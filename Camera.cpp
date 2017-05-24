@@ -143,9 +143,11 @@ public:
 		} else if (this->whitePixels > 0) {
 			// printf("P: %d, I: %d D: %d\n", errorSignal.p, errorSignal.i, errorSignal.d);
 			// movement.setMotor(40 - (errorSignal.p + errorSignal.i + errorSignal.d), 35 + (errorSignal.p + errorSignal.i + errorSignal.d));
-			movement.setMotion(errorSignal);
-			this->straight = false;
 			turning = false;
+			this->straight = false;
+			movement.setMotion(errorSignal);
+			
+			
 		}
 		else {
 			turning = false;
