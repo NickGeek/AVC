@@ -145,9 +145,11 @@ public:
 			// movement.setMotor(40 - (errorSignal.p + errorSignal.i + errorSignal.d), 35 + (errorSignal.p + errorSignal.i + errorSignal.d));
 			movement.setMotion(errorSignal);
 			this->straight = false;
+			turning = false;
 		}
 		else {
 			movement.setMotor(-50, -45);
+			turning = false;
 		}
 
 		return movement;
