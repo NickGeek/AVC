@@ -75,10 +75,12 @@ class Camera: public Sensor {
 
 		if (whitePixels > 310) {
 			if (this->quad == 3) {
+				
 				this->atTIntersection = true;
 			}
 			else {
 				this->quad = 3;
+				this->kp = 0.002;
 				printf("Q3 PARTY TIME!\n");
 			}
 		}
@@ -121,23 +123,23 @@ public:
 		Movement movement;
 
 		if (this->quad == 3 && this->atTIntersection && this->straight==false) {
-			movement.setMotor(10, 45);
+			movement.setMotor(20, 45);
 			this->atTIntersection = false;
 			this->turning = true;
 			printf("intersection\n");
 			this->straight = true;
-		} else if (this->atLeftTurn && this->straight==true){
-			movement.setMotor(10, 45);
-			this->atLeftTurn = false;
-			this->turning = true;
-			this->straight = true;
-			printf("left turn\n");
-		} else if (this->atRightTurn && this->straight==true)){
-			movement.setMotor(45, 10);
-			this->atRightTurn = false;
-			this->turning = true;
-			this->straight = true;
-			printf("right turn\n");
+		//} else if (this->atLeftTurn && this->straight==true){
+			//movement.setMotor(10, 45);
+			//this->atLeftTurn = false;
+			//this->turning = true;
+			//this->straight = true;
+			//printf("left turn\n");
+		//} else if (this->atRightTurn && this->straight==true)){
+			//movement.setMotor(45, 10);
+			//this->atRightTurn = false;
+			//this->turning = true;
+			//this->straight = true;
+			//printf("right turn\n");
 		} else if (this->whitePixels > 0) {
 			// printf("P: %d, I: %d D: %d\n", errorSignal.p, errorSignal.i, errorSignal.d);
 			// movement.setMotor(40 - (errorSignal.p + errorSignal.i + errorSignal.d), 35 + (errorSignal.p + errorSignal.i + errorSignal.d));
