@@ -36,7 +36,6 @@ class MazeSolver {
 			}
 			else {
 				sleep1(0, 100000);
-				printf("regular\n");
 			}
 		}
 	}
