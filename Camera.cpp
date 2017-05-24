@@ -147,6 +147,7 @@ public:
 			
 			
 		} else if (this->quad == 3 && this->atTIntersection){
+			movement.setMotor(-30, -25);
 			this->atTIntersection = false;
 			this->turning = true;
 			movement.setMotor(20, 55);
