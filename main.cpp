@@ -35,7 +35,7 @@ class MazeSolver {
 				printf("increased\n");
 			}
 			else {
-				sleep1(0, 50000);
+				sleep1(0, 100000);
 			}
 		}
 	}
