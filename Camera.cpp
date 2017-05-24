@@ -110,7 +110,7 @@ class Camera: public Sensor {
 			
 			this->atRightTurn = true;
 		}
-		if (this->atRightTurn = true && this->atLeftTurn = true){
+		if (this->atRightTurn == true && this->atLeftTurn == true){
 			this->atTIntersection = true;
 		}
 		return errorSignal;
