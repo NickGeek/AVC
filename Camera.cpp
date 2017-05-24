@@ -151,7 +151,7 @@ public:
 			
 			
 		} else {
-			movement.setMotor(-20, -15);
+			movement.setMotor(-20, -20);
 			sleep1(0, 100000);
 			if (this->quad == 3 && this->atTIntersection){
 				this->atTIntersection = false;
@@ -161,7 +161,7 @@ public:
 				printf("intersection\n");
 			} else {
 				this->turning = false;
-				movement.setMotor(-30, -25);
+				movement.setMotor(-25, -25);
 			}
 		}
 		this->atRightTurn = false;
