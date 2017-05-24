@@ -137,6 +137,7 @@ public:
 		}
 		else {
 			movement.setMotor(-50, -45);
+			printf("test2");
 		}
 
 		return movement;
