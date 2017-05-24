@@ -148,8 +148,9 @@ public:
 			turning = false;
 		}
 		else {
-			movement.setMotor(-50, -45);
 			turning = false;
+			movement.setMotor(-50, -45);
+			
 		}
 
 		return movement;
