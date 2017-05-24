@@ -25,7 +25,6 @@ public:
 	}
 
 	void setMotion(ErrorSignal errorSignal) {
-		printf("test");
 		setMotor(baseSpeed - (errorSignal.p + errorSignal.i + errorSignal.d), (baseSpeed - 5) + (errorSignal.p + errorSignal.i + errorSignal.d));
 	}
 
