@@ -155,7 +155,7 @@ public:
 			if (this->quad == 3 && this->atTIntersection){
 				this->atTIntersection = false;
 				this->turning = true;
-				movement.setMotor(20, 45);
+				movement.setMotor(0, 45);
 				printf("intersection\n");
 			} else {
 				this->turning = true;
