@@ -75,7 +75,7 @@ class Camera: public Sensor {
 			return errorSignal;
 		}
 
-		if (whitePixels > 310) {
+		if (whitePixels > 300) {
 			if (this->quad == 3) {
 				
 				this->atTIntersection = true;
