@@ -18,7 +18,7 @@ class Camera: public Sensor {
 	bool straight;
 		
 	/** PID Constants */
-	float kp = 0.001;
+	float kp = 0.0015;
 	float ki = 0;
 	float kd = 0.001;
 
