@@ -135,19 +135,19 @@ public:
 					atTIntersection = true;
 				}
 				if (atTIntersection){
-					while (movement.setMotion(errorSignal)>3 && movement.setMotion(errorSignal)<-3){
+					while (errorSignal>3 || errorSignal<-3){
 						movement.setMotor(0, 30);
 					}
 					atLeftTurn = false;
 					atRightTurn = false;
 					atTIntersection = false;
 				} else if (atRightTurn){
-					while (movement.setMotion(errorSignal)>3 && movement.setMotion(errorSignal)<-3){
+					while (errorSignal>3 || errorSignal<-3){
 						movement.setMotor(30, 0);
 					}
 					atRightTurn = false;
 				} else if (atLeftTurn){
-					while (movement.setMotion(errorSignal)>3 && movement.setMotion(errorSignal)<-3){
+					while (errorSignal>3 || errorSignal<-3){
 						movement.setMotor(0, 30);
 					}
 					atLeftTurn = false;
