@@ -95,16 +95,14 @@ public:
 			} else {
 				movement.setMotor(-30, -30);
 			}
-		} else if (this->quad==3){
+		} else if (this->quad == 3){
 			if (this->whitePixels > 0) {
 				movement.setMotion(errorSignal);
 			} else {
-				sleep1(1,0);
+				printf("Recognised Turn\n");
 				for (int i = 160; i < 320; i++){
 					int pixelValue2 = get_pixel(60, i, 3);	
-					if(pixelValue2 > whiteThreshold) {
-						whitePixelsLeft++;
-					}	
+					if(pixelValue2 > whiteThreshold) whitePixelsLeft++;
 				}
 				if (whitePixelsLeft>=150){
 					atLeftTurn = true;
@@ -121,26 +119,25 @@ public:
 				if (atLeftTurn && atRightTurn){
 					atTIntersection = true;
 				}
-				if (atTIntersection){
-					while (errorSignal>3 || errorSignal<-3){
+				if (atTIntersection) {
+					while (errorSignal.p >= 3 || errorSignal.p <= -3){
 						movement.setMotor(0, 30);
 					}
 					atLeftTurn = false;
 					atRightTurn = false;
 					atTIntersection = false;
 				} else if (atRightTurn){
-					while (errorSignal>3 || errorSignal<-3){
+					while (errorSignal.p >= 3 || errorSignal.p <= -3){
 						movement.setMotor(30, 0);
 					}
 					atRightTurn = false;
 				} else if (atLeftTurn){
-					while (errorSignal>3 || errorSignal<-3){
+					while (errorSignal.p > 3 || errorSignal.p <= 3){
 						movement.setMotor(0, 30);
 					}
 					atLeftTurn = false;
 				}
-				    
-				    
+
 			}				
 		}
 		
