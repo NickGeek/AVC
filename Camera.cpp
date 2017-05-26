@@ -102,7 +102,7 @@ public:
 		if (this->quad < 3){
 			if (this->whitePixels > 0) {
 				movement.setMotion(errorSignal);
-				if (whitePixels > 300){
+				if (whitePixels > 305){
 					this->quad = 3;
 				}
 			} else {
