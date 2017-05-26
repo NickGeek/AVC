@@ -109,13 +109,13 @@ public:
 				if (whitePixelsLeft>=150){
 					atLeftTurn = true;
 				}
-				for (int r = 0; r < 160; r++){
-					int pixelValue2 = get_pixel(60, i, 3);	
+				for (int j = 0; j < 160; j++){
+					int pixelValue2 = get_pixel(60, j, 3);	
 					if(pixelValue2 > whiteThreshold) {
 						whitePixelsRight++;
 					}	
 				}
-				if (whitePixelsRight>=150{
+				if (whitePixelsRight>=150){
 					atRightTurn = true;
 				}
 				if (atLeftTurn && atRightTurn){
