@@ -30,13 +30,7 @@ class MazeSolver {
 	void lineDriver() {
 		while (this->camera.quad < 4) {
 			this->camera.getNextDirection().move();
-			if (this->camera.quad == 3 && this->camera.turning) {
-				sleep1(0, 500000);
-				printf("increased\n");
-			}
-			else {
-				sleep1(0, 100000);
-			}
+			sleep1(0, 50000);
 		}
 	}
 
