@@ -50,6 +50,10 @@ class MazeSolver {
 			else {
 				sleep1(0, 200000);
 			}
+
+			// if (this->camera.checkForRedLine(200)) {
+				
+			// }
 		}
 	}
 public:

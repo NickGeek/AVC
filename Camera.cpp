@@ -56,7 +56,7 @@ class Camera: public Sensor {
 			errorSignal.d = (newError-error)*kd;
 
 			/** Find out about glorious communist red pixels */
-			if (get_pixel(120, i, 0) > 230) {
+			if (get_pixel(height, i, 0) > 230) {
 				redPixels++;
 			}
 		}
@@ -114,7 +114,6 @@ public:
 				movement.setMotion(errorSignal);
 			}
 			else {
-				printf("%d\n", whitePixels);
 				take_picture();
 
 				for (int i = 160; i < 320; i++){
@@ -148,12 +147,14 @@ public:
 					atLeftTurn = false;
 					atRightTurn = false;
 					atTIntersection = false;
-				} else if (atRightTurn){
+				}
+				else if (atRightTurn) {
 					this->isTurning = true;
 					errorSignal = getErrorSignal(200);
 					movement.setMotor(40, 0);
 					atRightTurn = false;
-				} else if (atLeftTurn) {
+				}
+				else if (atLeftTurn) {
 					this->isTurning = true;
 					errorSignal = getErrorSignal(200);
 					movement.setMotor(0, 35);
@@ -165,11 +166,19 @@ public:
 			}				
 		}
 		
-			// printf("P: %d, I: %d D: %d\n", errorSignal.p, errorSignal.i, errorSignal.d);
-			// movement.setMotor(40 - (errorSignal.p + errorSignal.i + errorSignal.d), 35 + (errorSignal.p + errorSignal.i + errorSignal.d));
-			
-			
-		
 		return movement;
+	}
+
+	bool checkForRedLine(int height) {
+		int redPixels = 0;
+
+		take_picture();
+		for (int i = 0; i < 320; i++) {
+			if (get_pixel(height, i, 0) > 230) {
+				redPixels++;
+			}
+		}
+
+		return (redPixels > 300);
 	}
 };
