@@ -18,7 +18,6 @@ class MazeSolver {
 	IR ir;
 
 	void openNetworkGate() {
-		//TODO: Move in a straight line and open gate
 		connect_to_server("130.195.6.196", 1024);
 		send_to_server("Please");
 		char key[24];
@@ -30,7 +29,15 @@ class MazeSolver {
 	void lineDriver() {
 		while (this->camera.quad < 4) {
 			this->camera.getNextDirection().move();
-			sleep1(0, 50000);
+			if (this->camera.q3JustStarted) {
+				sleep1(0, 500000);
+			}
+			else if (this->camera.isTurning) {
+				sleep1(1, 0);
+			}
+			else {
+				sleep1(0, 50000);
+			}
 		}
 	}
 

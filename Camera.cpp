@@ -15,25 +15,25 @@ class Camera: public Sensor {
 	bool straight;
 		
 	/** PID Constants */
-	float kp = 0.0015;
+	float kp = 0.001;
 	float ki = 0;
 	float kd = 0.001;
 
 	/** Get current PID values */
-	ErrorSignal getErrorSignal() {
+	ErrorSignal getErrorSignal(int height) {
 		this->whitePixels = 0;
+		this->whiteThreshold = 120;
 		int redPixels = 0;
 		int sum = 0;
 		int error = 0;
 		ErrorSignal errorSignal = {0, 0 ,0};
-		whiteThreshold = 120;
 
 
 		take_picture();
 		for (int i = 0; i < 320; i++) {
 
 			/** Get P value */
-			int pixelValue = get_pixel(200, i, 3);
+			int pixelValue = get_pixel(height, i, 3);
 			if(pixelValue > whiteThreshold) {
 				whitePixels++;
 				sum = 1;
@@ -42,11 +42,11 @@ class Camera: public Sensor {
 				sum = 0;
 			}
 			int oldError = error;
-			error = error + (i - 160) * sum;
+			error += (i - 160) * sum;
 			errorSignal.p = error * kp;
 
 			/** Get D value */
-			if (get_pixel(30, i, 3) > whiteThreshold) {
+			if (get_pixel(220, i, 3) > whiteThreshold) {
 				sum = 1;
 			}
 			else {
@@ -72,18 +72,32 @@ class Camera: public Sensor {
 		return errorSignal;
 	}
 
+	bool shouldKeepTurning() {
+		ErrorSignal errorSignal = {0, 0, 0};
+		errorSignal = getErrorSignal(200);
+		printf("P-Value: %d\n", errorSignal.p);
+		return (errorSignal.p != 0 && this->whitePixels > 0);
+	}
+
 public:
+	bool isTurning;
+	bool q3JustStarted;
+
 	Camera() {
 		this->quad = 1;
+		this->isTurning = false;
+		this->q3JustStarted = false;
 	}
 
 	Movement getNextDirection() {
-		int whitePixelsLeft;
-		int whitePixelsRight;
+		int whitePixelsLeft = 0;
+		int whitePixelsRight = 0;
 		bool atLeftTurn = false;
 		bool atRightTurn = false;
 		bool atTIntersection = false;
-		ErrorSignal errorSignal = getErrorSignal();
+		this->isTurning = false;
+		this->q3JustStarted = false;
+		ErrorSignal errorSignal = getErrorSignal(200);
 		Movement movement;
 		
 		if (this->quad < 3){
@@ -91,53 +105,64 @@ public:
 				movement.setMotion(errorSignal);
 				if (whitePixels > 305){
 					this->quad = 3;
+					this->q3JustStarted = true;
 				}
 			} else {
-				movement.setMotor(-30, -30);
+				movement.setMotor(-50, -45);
 			}
 		} else if (this->quad == 3){
 			if (this->whitePixels > 0) {
 				movement.setMotion(errorSignal);
-			} else {
-				printf("Recognised Turn\n");
+			}
+			else {
+				printf("%d\n", whitePixels);
+				take_picture();
+
 				for (int i = 160; i < 320; i++){
-					int pixelValue2 = get_pixel(60, i, 3);	
-					if(pixelValue2 > whiteThreshold) whitePixelsLeft++;
+					int pixelValue = get_pixel(50, i, 3);	
+					if (pixelValue > whiteThreshold) {
+						whitePixelsLeft++;
+					}
 				}
-				if (whitePixelsLeft>=150){
+				printf("Left: %d\n", whitePixelsLeft);
+				if (whitePixelsLeft >= 100) {
 					atLeftTurn = true;
 				}
 				for (int j = 0; j < 160; j++){
-					int pixelValue2 = get_pixel(60, j, 3);	
-					if(pixelValue2 > whiteThreshold) {
+					int pixelValue = get_pixel(50, j, 3);	
+					if(pixelValue > whiteThreshold) {
 						whitePixelsRight++;
-					}	
+					}
 				}
-				if (whitePixelsRight>=150){
+				printf("Right: %d\n", whitePixelsRight);
+				if (whitePixelsRight >= 120) {
 					atRightTurn = true;
 				}
 				if (atLeftTurn && atRightTurn){
 					atTIntersection = true;
 				}
+
 				if (atTIntersection) {
-					while (errorSignal.p >= 3 || errorSignal.p <= -3){
-						movement.setMotor(0, 30);
-					}
+					printf("At a T-Intersection\n");
+					this->isTurning = true;
+					movement.setMotor(0, 40);
 					atLeftTurn = false;
 					atRightTurn = false;
 					atTIntersection = false;
 				} else if (atRightTurn){
-					while (errorSignal.p >= 3 || errorSignal.p <= -3){
-						movement.setMotor(30, 0);
-					}
+					this->isTurning = true;
+					errorSignal = getErrorSignal(200);
+					movement.setMotor(40, 0);
 					atRightTurn = false;
-				} else if (atLeftTurn){
-					while (errorSignal.p > 3 || errorSignal.p <= 3){
-						movement.setMotor(0, 30);
-					}
+				} else if (atLeftTurn) {
+					this->isTurning = true;
+					errorSignal = getErrorSignal(200);
+					movement.setMotor(0, 35);
 					atLeftTurn = false;
 				}
-
+				else {
+					movement.setMotor(-50, -45);
+				}
 			}				
 		}
 		

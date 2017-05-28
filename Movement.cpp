@@ -29,7 +29,6 @@ public:
 	}
 
 	void move() {
-		// printf("%d:%d\n", this->motorLeft*-1, this->motorRight);
 		set_motor(1, this->motorLeft*-1);
 		set_motor(2, this->motorRight);
 	}
