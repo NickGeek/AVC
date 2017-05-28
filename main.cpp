@@ -44,7 +44,12 @@ class MazeSolver {
 	void wallDriver() {
 		while (this->camera.quad == 4) {
 			this->ir.getNextDirection().move();
-			sleep1(0, 200000);
+			if (this->ir.isTurning) {
+				sleep1(1, 0);
+			}
+			else {
+				sleep1(0, 200000);
+			}
 		}
 	}
 public:

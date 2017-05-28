@@ -80,7 +80,6 @@ class Camera: public Sensor {
 	}
 
 public:
-	bool isTurning;
 	bool q3JustStarted;
 
 	Camera() {

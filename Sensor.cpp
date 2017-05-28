@@ -7,7 +7,7 @@ using namespace std;
 class Sensor {
 public:
 	int quad;
-	bool turning;
+	bool isTurning;
 
 protected:
 	int maxValue[3] = {1, 1, 1};

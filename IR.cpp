@@ -17,19 +17,33 @@ class IR: public Sensor {
 		// printf("%d\n", sensorFront);
 		// printf("%d\n", sensorLeft);
 		// printf("%d\n", sensorRight);
-		sleep1(0, 30000);
 		printf("%d\n", (sensorRight - sensorLeft));
 		errorSignal.p = (sensorRight - sensorLeft)*kp;
 		printf("P: %d\n", errorSignal.p);
+
+		//If we are at a wall, make a right turn
+		if (sensorFront > 230) {
+			this->isTurning = true;
+		}
 
 		return errorSignal;
 	}
 
 public:
+	bool isTurning;
+	IR() {
+		this->isTurning = false;
+	}
+
 	Movement getNextDirection() {		
 		Movement movement;
 		getErrorSignal();
-		movement.setMotion(getErrorSignal());
+		if (isTurning) {
+			movement.setMotor(40, 0);
+		}
+		else {
+			movement.setMotion(getErrorSignal());
+		}
 		return movement;
 	}
 };
