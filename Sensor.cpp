@@ -17,7 +17,6 @@ protected:
 		if (sensorValue > this->maxValue[sensorNumber]) this->maxValue[sensorNumber] = sensorValue;
 		// if (sensorValue < this->minValue) this->minValue = sensorValue;
 
-		//TODO: Get relative value
 		int relValue = ((float)sensorValue/this->maxValue[sensorNumber])*255;
 		if (relValue > 255) relValue = 255;
 		return relValue;

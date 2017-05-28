@@ -46,4 +46,16 @@ public:
 		}
 		return movement;
 	}
+
+	void waitForGate() {
+		printf("Gate has come down\n");
+		int sensorFront = 0;
+		bool hasComeDown = false;
+
+		while (!hasComeDown) {
+			sensorFront = getRelativeValue(read_analog(0), 0);
+			if (sensorFront > 230) true;
+			sleep1(0, 200000);
+		}
+	}
 };

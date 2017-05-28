@@ -51,9 +51,10 @@ class MazeSolver {
 				sleep1(0, 200000);
 			}
 
-			// if (this->camera.checkForRedLine(200)) {
-				
-			// }
+			if (this->camera.checkForRedLine(200)) {
+				//Start Gate loop
+				this->ir.waitForGate();
+			}
 		}
 	}
 public:
