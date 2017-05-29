@@ -10,12 +10,13 @@ class Camera: public Sensor {
 	int totalError;
 	int whiteThreshold;
 	bool atTIntersection;
+	bool hasT;
 	int counter;
 
 	bool straight;
 		
 	/** PID Constants */
-	float kp = 0.001;
+	float kp = 0.0015;
 	float ki = 0;
 	float kd = 0.001;
 
@@ -46,7 +47,7 @@ class Camera: public Sensor {
 			errorSignal.p = error * kp;
 
 			/** Get D value */
-			if (get_pixel(220, i, 3) > whiteThreshold) {
+			if (get_pixel(height-40, i, 3) > whiteThreshold) {
 				sum = 1;
 			}
 			else {
@@ -86,6 +87,7 @@ public:
 		this->quad = 1;
 		this->isTurning = false;
 		this->q3JustStarted = false;
+		this->hasT = false;
 	}
 
 	Movement getNextDirection() {
@@ -96,7 +98,10 @@ public:
 		bool atTIntersection = false;
 		this->isTurning = false;
 		this->q3JustStarted = false;
-		ErrorSignal errorSignal = getErrorSignal(200);
+		ErrorSignal errorSignal = getErrorSignal(180);
+		if (this->quad == 3) {
+			errorSignal = getErrorSignal(120);
+		}
 		Movement movement;
 		
 		if (this->quad < 3){
@@ -107,7 +112,7 @@ public:
 					this->q3JustStarted = true;
 				}
 			} else {
-				movement.setMotor(-50, -45);
+				movement.setMotor(-40, -35);
 			}
 		} else if (this->quad == 3){
 			if (this->whitePixels > 0) {
@@ -142,19 +147,20 @@ public:
 
 				if (atTIntersection) {
 					printf("At a T-Intersection\n");
+					this->hasT = true;
 					this->isTurning = true;
 					movement.setMotor(0, 40);
 					atLeftTurn = false;
 					atRightTurn = false;
 					atTIntersection = false;
 				}
-				else if (atRightTurn) {
+				else if (atRightTurn && hasT) {
 					this->isTurning = true;
 					errorSignal = getErrorSignal(200);
 					movement.setMotor(40, 0);
 					atRightTurn = false;
 				}
-				else if (atLeftTurn) {
+				else if (atLeftTurn && hasT) {
 					this->isTurning = true;
 					errorSignal = getErrorSignal(200);
 					movement.setMotor(0, 35);

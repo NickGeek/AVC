@@ -1,18 +1,22 @@
 using namespace std;
 
 class IR: public Sensor {
+	char turnType = '0';
+	bool reverse = false;
+
 	ErrorSignal getErrorSignal() {
 		ErrorSignal errorSignal = {0, 0, 0};
 
-		float kp = 0.035;
+		float kp = 0.05;
+		// kp = 0;
 		int sensorFront, sensorLeft, sensorRight;
 
-		for (int i = 0; i < 10; i++) {
-			sensorFront = getRelativeValue(read_analog(0), 0);
-			sensorLeft = getRelativeValue(read_analog(1), 1);
-			sensorRight = getRelativeValue(read_analog(2), 2)*0.85;
-			sleep1(0, 500);
-		}
+		// for (int i = 0; i < 3; i++) {
+		// 	sleep1(0, 500);
+		// }
+		sensorFront = getRelativeValue(read_analog(0), 0);
+		sensorLeft = getRelativeValue(read_analog(1), 1);
+		sensorRight = getRelativeValue(read_analog(7), 2)*0.8;
 
 		// printf("F %d\n", sensorFront);
 		// printf("L %d\n", sensorLeft);
@@ -22,11 +26,19 @@ class IR: public Sensor {
 		printf("P: %d\n", errorSignal.p);
 
 		//If we are at a wall, make a right turn
-		printf("%d\n", read_analog(0));
-		if (read_analog(0) > 105) {
+		printf("%d and %d\n", read_analog(0), sensorRight);
+		if (sensorRight < 100 && read_analog(0) > 300) {
 			// printf("%d\n", read_analog(0));
-			sleep1(0, 400000);
+			// sleep1(0, 100000);
 			this->isTurning = true;
+			this->turnType = 'R';
+		}
+		else if (sensorLeft < 100 && read_analog(0) > 400) {
+			this->isTurning = true;
+			this->turnType = 'L';
+		}
+		else if (read_analog(0) > 300) {
+			this->reverse = true;
 		}
 
 		return errorSignal;
@@ -40,11 +52,21 @@ public:
 
 	Movement getNextDirection() {		
 		Movement movement;
+		// movement.setBaseSpeed(30);
 		getErrorSignal();
 		if (isTurning) {
 			printf("Turning\n");
-			movement.setMotor(50, 35);
+			if (this->turnType == 'R') {
+				movement.setMotor(85, -30);
+			}
+			else if (this->turnType == 'L') {
+				movement.setMotor(-30, 100);
+			}
 			this->isTurning = false;
+		}
+		else if (this->reverse) {
+			this->reverse = false;
+			movement.setMotor(-55, -35);
 		}
 		else {
 			movement.setMotion(getErrorSignal());
