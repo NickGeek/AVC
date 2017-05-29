@@ -27,13 +27,13 @@ class IR: public Sensor {
 
 		//If we are at a wall, make a right turn
 		printf("%d and %d\n", read_analog(0), sensorRight);
-		if (sensorRight < 100 && read_analog(0) > 300) {
+		if (sensorRight < 100 && read_analog(0) > 120) {
 			// printf("%d\n", read_analog(0));
 			// sleep1(0, 100000);
 			this->isTurning = true;
 			this->turnType = 'R';
 		}
-		else if (sensorLeft < 100 && read_analog(0) > 400) {
+		else if (sensorLeft < 100 && read_analog(0) > 120) {
 			this->isTurning = true;
 			this->turnType = 'L';
 		}
@@ -57,6 +57,7 @@ public:
 		if (isTurning) {
 			printf("Turning\n");
 			if (this->turnType == 'R') {
+				sleep1(0, 250000);
 				movement.setMotor(85, -30);
 			}
 			else if (this->turnType == 'L') {
