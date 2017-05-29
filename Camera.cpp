@@ -96,8 +96,14 @@ public:
 		bool atTIntersection = false;
 		this->isTurning = false;
 		this->q3JustStarted = false;
-		ErrorSignal errorSignal = getErrorSignal(200);
 		Movement movement;
+		ErrorSignal errorSignal;
+		if (this->quad < 3) {
+			errorSignal = getErrorSignal(200);
+		}
+		else {
+			errorSignal = getErrorSignal(220);
+		}
 		
 		if (this->quad < 3){
 			if (this->whitePixels > 0) {
@@ -109,33 +115,38 @@ public:
 			} else {
 				movement.setMotor(-50, -45);
 			}
-		} else if (this->quad == 3){
+		}
+		else if (this->quad == 3){
 			if (this->whitePixels > 0) {
 				movement.setMotion(errorSignal);
 			}
 			else {
 				take_picture();
 
-				for (int i = 160; i < 320; i++){
-					int pixelValue = get_pixel(50, i, 3);	
+				for (int i = 0; i < 240; i++){
+					int pixelValue = get_pixel(i, 20, 3);	
 					if (pixelValue > whiteThreshold) {
 						whitePixelsLeft++;
 					}
 				}
 				printf("Left: %d\n", whitePixelsLeft);
+
 				if (whitePixelsLeft >= 100) {
 					atLeftTurn = true;
 				}
-				for (int j = 0; j < 160; j++){
-					int pixelValue = get_pixel(50, j, 3);	
+
+				for (int j = 0; j < 240; j++){
+					int pixelValue = get_pixel(j, 300, 3);	
 					if(pixelValue > whiteThreshold) {
 						whitePixelsRight++;
 					}
 				}
+
 				printf("Right: %d\n", whitePixelsRight);
-				if (whitePixelsRight >= 120) {
+				if (whitePixelsRight >= 60) {
 					atRightTurn = true;
 				}
+
 				if (atLeftTurn && atRightTurn){
 					atTIntersection = true;
 				}
