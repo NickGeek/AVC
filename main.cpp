@@ -45,10 +45,10 @@ class MazeSolver {
 		while (this->camera.quad == 4) {
 			this->ir.getNextDirection().move();
 			if (this->ir.isTurning) {
-				sleep1(1, 0);
+				sleep1(2, 0);
 			}
 			else {
-				sleep1(0, 200000);
+				sleep1(0, 10000);
 			}
 
 			if (this->camera.checkForRedLine(200)) {

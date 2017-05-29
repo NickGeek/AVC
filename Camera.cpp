@@ -56,14 +56,14 @@ class Camera: public Sensor {
 			errorSignal.d = (newError-error)*kd;
 
 			/** Find out about glorious communist red pixels */
-			if (get_pixel(height, i, 0) > 230) {
+			if (get_pixel(height, i, 0) > 120 && get_pixel(height, i, 1) < 50 && get_pixel(height, i, 1) < 50) {
 				redPixels++;
 			}
 		}
 		this->totalError += error;
 		errorSignal.i = totalError*ki;
 
-		if (redPixels > 300) {
+		if (redPixels > 50) {
 			this->quad = 4;
 			printf("Q4!!!\n");
 			errorSignal = {0, 0, 0};

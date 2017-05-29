@@ -4,25 +4,28 @@ class IR: public Sensor {
 	ErrorSignal getErrorSignal() {
 		ErrorSignal errorSignal = {0, 0, 0};
 
-		float kp = 0.05;
+		float kp = 0.035;
 		int sensorFront, sensorLeft, sensorRight;
 
 		for (int i = 0; i < 10; i++) {
 			sensorFront = getRelativeValue(read_analog(0), 0);
 			sensorLeft = getRelativeValue(read_analog(1), 1);
-			sensorRight = getRelativeValue(read_analog(2), 2);
-			sleep1(0, 30000);
+			sensorRight = getRelativeValue(read_analog(2), 2)*0.85;
+			sleep1(0, 500);
 		}
 
-		// printf("%d\n", sensorFront);
-		// printf("%d\n", sensorLeft);
-		// printf("%d\n", sensorRight);
-		printf("%d\n", (sensorRight - sensorLeft));
+		// printf("F %d\n", sensorFront);
+		// printf("L %d\n", sensorLeft);
+		// printf("R %d\n", sensorRight);
+		// printf("T: %d\n", (sensorRight - sensorLeft));
 		errorSignal.p = (sensorRight - sensorLeft)*kp;
 		printf("P: %d\n", errorSignal.p);
 
 		//If we are at a wall, make a right turn
-		if (sensorFront > 230) {
+		printf("%d\n", read_analog(0));
+		if (read_analog(0) > 105) {
+			// printf("%d\n", read_analog(0));
+			sleep1(0, 400000);
 			this->isTurning = true;
 		}
 
@@ -39,7 +42,9 @@ public:
 		Movement movement;
 		getErrorSignal();
 		if (isTurning) {
-			movement.setMotor(40, 0);
+			printf("Turning\n");
+			movement.setMotor(50, 35);
+			this->isTurning = false;
 		}
 		else {
 			movement.setMotion(getErrorSignal());
