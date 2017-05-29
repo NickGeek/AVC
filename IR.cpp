@@ -10,7 +10,7 @@ class IR: public Sensor {
 		for (int i = 0; i < 10; i++) {
 			sensorFront = getRelativeValue(read_analog(0), 0);
 			sensorLeft = getRelativeValue(read_analog(1), 1);
-			sensorRight = getRelativeValue(read_analog(2), 2)*0.85;
+			sensorRight = getRelativeValue(read_analog(7), 2)*0.85;
 			sleep1(0, 500);
 		}
 
